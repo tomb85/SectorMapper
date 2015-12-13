@@ -42,7 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Sector.cs" />
+    <Compile Include="SectorMap.cs" />
+    <Compile Include="SectorMapFileWriter.cs" />
+    <Compile Include="SectorMapper.cs" />
+    <Compile Include="SectorMapperBuilder.cs" />
+    <Compile Include="Tool\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

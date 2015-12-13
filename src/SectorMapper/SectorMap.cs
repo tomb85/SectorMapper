@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace SectorMapper
 {
-    class Program
+    class SectorMap
     {
-        static void Main(string[] args)
-        {
-            // TODOfdsfds
-        }
     }
 }
