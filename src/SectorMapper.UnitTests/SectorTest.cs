@@ -8,6 +8,7 @@ namespace SectorMapper.UnitTests
     public class SectorTest
     {
         [TestMethod]
+        [TestCategory("Unit")]
         public void ConstructorShouldReturnGoodArguments()
         {
             var testowysector = new Sector(12,10,4,6); //var gwarantuje, ze stworzony obiekt bedzie tego samego typu, co obiekt stworzony rpze wywolanie klasy (new)
@@ -20,6 +21,7 @@ namespace SectorMapper.UnitTests
         }
 
         [TestMethod]
+        [TestCategory("Unit")]
         public void CzekErja()
         {
             var testowysector = new Sector(fillTreshhold: 1, id: 1, height: 5, width: 10); // <-- to jest wzorcowy model wywoalania funkcji, nie wkladam po kolei 4x random numer, bo nie wiadomo o co chodzi, tylko po kolei nazywasz i przypisujesz wartosc, ze inna osoba wie o co kaman
@@ -27,6 +29,7 @@ namespace SectorMapper.UnitTests
         }
 
         [TestMethod]
+        [TestCategory("Unit")]
         public void CzekFillCountIsInnitializedToZerou()
         {
             var testowysecotr = new Sector(fillTreshhold: 1, id: 1, height: 5, width: 10);
@@ -34,6 +37,7 @@ namespace SectorMapper.UnitTests
         }
         
         [TestMethod]
+        [TestCategory("Unit")]
         public void CheckIncreaseFillCount()
         {
             var testowysec = new Sector(fillTreshhold: 1, id: 1, height: 5, width: 10);
@@ -42,6 +46,7 @@ namespace SectorMapper.UnitTests
             Assert.AreEqual(2, testowysec.FillCount, "should be 2, Jim");
         }
         [TestMethod]
+        [TestCategory("Unit")]
         public void TestCzyFillRatioPoprawnieDajeDouble()
         {
             var sut = new Sector(fillTreshhold: 1, id: 1, height: 5, width: 10);
@@ -54,6 +59,7 @@ namespace SectorMapper.UnitTests
         }
 
         [TestMethod]
+        [TestCategory("Unit")]
         public void IsBlackDlaCzarnego()
         {
             var sut = new Sector(fillTreshhold: 0.5, id: 1, height: 5, width: 10);
@@ -65,6 +71,7 @@ namespace SectorMapper.UnitTests
         }
 
         [TestMethod]
+        [TestCategory("Unit")]
         public void IsBlackDlaBialego()
         {
             var sut = new Sector(fillTreshhold: 0.5, id: 1, height: 5, width: 10);
