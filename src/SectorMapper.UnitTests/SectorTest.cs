@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace SectorMapper.UnitTests
 {
     [TestClass]
-    public class UnitTest1
+    public class SectorTest
     {
         [TestMethod]
         public void TestMethod1()
