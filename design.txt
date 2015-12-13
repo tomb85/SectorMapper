@@ -1,0 +1,36 @@
+// Create sector mapper that will produce sector map for a given image
+SectorMapper mapper = new SectorMapperBuilder()
+							.withSectorCount(10)
+							.withFillThreshold(0.33)
+							.build()
+
+// Load the image from file					
+String imagePath = "\data\images\image1.png";
+ImageLoader imageLoader = new ImageLoader();
+Image image = imageLoader.loadImage(imagePath);
+
+// Use the sector mapper to obtain the sector map for the image
+SectorMap sectorMap = mapper.map(image);
+
+// Some example SectorMap API methds
+sectorMap.getSectorCount(); // 10
+sectorMap.getSectorWidth(); // in pixels based on the image dimension
+sectorMap.getSectorHeight(); // in pixels based on the image dimension
+
+// We can retrieve sector by id from the sectorMap
+Sector sector = sectorMap.getSector(5);
+
+// Some example Sector API methds
+sector.getId(); // 5
+sector.getFillThreshold(); // 0.33
+sector.getWidth(); // in pixels
+sector.getHeight(); // in pixels;
+sector.getSize(); // in pixels (width * height)
+sector.getCapacity(); // width * height
+sector.getFillCount(); // number of pixels which are 'black'
+sector.getFillRate(); // fillCount / capacity
+sector.isBlack(); // true if fillCount > fillTreshold;
+
+// Finally we can write the sector map to a file
+SectorMapFileWriter sectorMapFileWriter = new SectorMapFileWriter();
+sectorMapFileWriter.writeToFile(sectorMap, "output.png");
