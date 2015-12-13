@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
+// TEST
+
 namespace SectorMapper.UnitTests
 {
     [TestClass]
