@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SectorMapper
 {
-    public class Sector
+    class Sector
     {
     }
 }
