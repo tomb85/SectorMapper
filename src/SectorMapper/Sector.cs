@@ -16,8 +16,8 @@ namespace SectorMapper
         public int FillCount { get; private set; } //uzywamy get private set aby "odizolowac" te wartosci od mozliwosci zmiany w innych czesciach programu
         public double FillRatio { get { return FillCount / (double)Area; } } // area i fill count to int, wiec kompilator autoamtycznie zaklada ze wynik operacji to tez jest int; czyli 11/50 = 0 a nie 0.22. Zeby wyswietlal wynik jako double, to co najmniej 1 argument musi byc double, i to robimy narzucajc typ wartosci (double)nazwazmiennej
 
-        //----*---- konstruktor
-        public Sector(int id, double fillTreshhold, int width, int height) 
+
+        public Sector(int id, double fillTreshhold, int width, int height) //----*---- konstruktor
         {
             Id = id;
             FillTreshhold = fillTreshhold;
