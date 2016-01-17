@@ -59,6 +59,7 @@
     <Compile Include="Image\FixedSizeImageLoaderIT.cs" />
     <Compile Include="SectorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SectorMapperEndToEndTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
