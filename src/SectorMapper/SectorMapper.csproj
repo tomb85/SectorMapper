@@ -43,9 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Debug\CompositeBitmapCreator.cs" />
-    <Compile Include="Debug\BitmapExtensions.cs" />
-    <Compile Include="Debug\SectorMapDebugger.cs" />
+    <Compile Include="Debugger\CompositeBitmapCreator.cs" />
+    <Compile Include="Debugger\BitmapExtensions.cs" />
+    <Compile Include="Debugger\SectorMapDebugger.cs" />
     <Compile Include="Image\ImageLoader.cs" />
     <Compile Include="Sector.cs" />
     <Compile Include="SectorMap.cs" />
