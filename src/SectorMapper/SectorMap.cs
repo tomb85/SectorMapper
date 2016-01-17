@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SectorMapper
 {
-    class SectorMap
+    public class SectorMap
     {
         // random comment
         //random comm2

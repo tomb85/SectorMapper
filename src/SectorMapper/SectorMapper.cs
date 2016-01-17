@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace SectorMapper
 {
-    class SectorMapper
+    public class SectorMapper
     {
+        public SectorMap Map(Bitmap bitMapOriginal)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

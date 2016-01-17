@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitMapLoader.cs" />
+    <Compile Include="CompositeBitMapCreator.cs" />
     <Compile Include="Sector.cs" />
     <Compile Include="SectorMap.cs" />
     <Compile Include="SectorMapFileWriter.cs" />

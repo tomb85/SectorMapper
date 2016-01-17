@@ -59,6 +59,7 @@
     <Compile Include="SectorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BitMapLoaderTest.cs" />
+    <Compile Include="SectorMapperEnd2EndTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
