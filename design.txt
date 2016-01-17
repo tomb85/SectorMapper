@@ -1,6 +1,6 @@
 // Create sector mapper that will produce sector map for a given image
 SectorMapper mapper = new SectorMapperBuilder()
-							.withSectorCount(10)
+							.withSectorIncrement(10)
 							.withFillThreshold(0.33)
 							.build()
 

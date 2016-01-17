@@ -60,6 +60,7 @@
     <Compile Include="SectorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SectorMapperEndToEndTest.cs" />
+    <Compile Include="SectorMapperBuilderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
