@@ -9,7 +9,7 @@ using System.Drawing.Imaging;
 
 namespace SectorMapper
 {
-    interface IBitMapLoader
+    public interface IBitMapLoader
     {
         Bitmap LoadBitmap(string path);
     }

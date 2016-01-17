@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitMapExtensions.cs" />
     <Compile Include="BitMapLoader.cs" />
     <Compile Include="CompositeBitMapCreator.cs" />
     <Compile Include="Sector.cs" />
     <Compile Include="SectorMap.cs" />
+    <Compile Include="SectorMapDebugger.cs" />
     <Compile Include="SectorMapFileWriter.cs" />
     <Compile Include="SectorMapper.cs" />
     <Compile Include="SectorMapperBuilder.cs" />

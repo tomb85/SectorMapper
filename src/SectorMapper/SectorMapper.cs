@@ -11,7 +11,7 @@ namespace SectorMapper
     {
         public SectorMap Map(Bitmap bitMapOriginal)
         {
-            throw new NotImplementedException();
+            return new SectorMap();
         }
     }
 }
