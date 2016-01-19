@@ -20,7 +20,32 @@ namespace SectorMapper
 
         public SectorMap Map(Bitmap img)
         {
-            return new SectorMap();
+            IDictionary<int, Sector> sectors = new SortedDictionary<int, Sector>();         
+            for (int x = 0; x < img.Width; x++)
+            {
+                for (int y = 0; y < img.Height; y++)
+                {
+                    int index = GetSectorIndex(x, y, img.Width, SectorIncrement);
+                    if (!sectors.ContainsKey(index))
+                    {
+                        sectors[index] = new Sector(id: index, fillTreshhold: SectorFillThreshold, width: SectorIncrement, height: SectorIncrement);
+                    }
+                    var pixel = img.GetPixel(x, y);
+                    if (pixel.Name == "ff000000")
+                    {
+                        var sector = sectors[index];
+                        sector.IncreaseFillCount();
+                    }     
+                }
+            }
+            return new SectorMap(img.Width, img.Height, SectorIncrement, sectors.Select(kvp => kvp.Value).ToList());
+        }
+
+        private int GetSectorIndex(int x, int y, int imageWidth, int increment)
+        {
+            // Use row major
+            int sectorsPerRow = imageWidth / increment;
+            return (x / increment) + (y / increment) * sectorsPerRow;
         }
     }
 }

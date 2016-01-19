@@ -9,30 +9,59 @@ namespace SectorMapper
     public class SectorMap
     {
         public int Width { get; private set; }
-
         public int Height { get; private set; }
+        public int SectorIncrement { get; private set; }
+        public IList<Sector> Sectors { get; private set; }
 
-        public SectorMap()
+        public SectorMap(int width, int height, int sectorIncrement, IList<Sector> sectors)
+        { 
+            Width = width;
+            Height = height;
+            SectorIncrement = sectorIncrement;
+            Sectors = sectors;
+
+            if (!ValidateSectorIncrement())
+            {
+                throw new InvalidOperationException("Incorrect sector increment specified");
+            }
+
+            if (!ValidateSectorCount())
+            {
+                throw new InvalidOperationException(String.Format("Incorrect sector count, expected {0} but got {1}", GetCorrectSectorCount(), sectors.Count));
+            }          
+        }
+
+        private bool ValidateSectorIncrement()
         {
-            Width = 500;
-            Height = 500;
+            return (Width * Height) % (SectorIncrement * SectorIncrement) == 0;
+        }
+
+        private bool ValidateSectorCount()
+        {
+            return (Width * Height) / (SectorIncrement * SectorIncrement) == Sectors.Count;
+        }
+
+        private int GetCorrectSectorCount()
+        {
+            return (Width * Height) / (SectorIncrement * SectorIncrement);
+        }
+
+        private int GetSectorIndex(int x, int y)
+        {            
+            // Use row major
+            int sectorsPerRow = Width / SectorIncrement;
+            return (x / SectorIncrement) + (y / SectorIncrement) * sectorsPerRow;
         }
 
         public bool IsFill(int x, int y)
         {
-            if (x < 200)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }           
+            var sector = Sectors[GetSectorIndex(x, y)];
+            return sector.IsBlack();            
         }
 
-        internal bool IsGrid(int x, int y)
+        public bool IsGrid(int x, int y)
         {
-            if (x % 50 == 0 || y % 50 == 0)
+            if (x % SectorIncrement == 0 || y % SectorIncrement == 0)
             {
                 return true;
             }

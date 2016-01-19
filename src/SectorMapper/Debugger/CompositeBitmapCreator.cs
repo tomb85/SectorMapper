@@ -95,7 +95,7 @@ namespace SectorMapper.Debug
                         bitmap.SetPixel(x, y, Color.FromArgb(0, Color.White));
                     }
                 }
-            }
+            }            
             return bitmap;               
         }
     }
