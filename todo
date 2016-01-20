@@ -1,0 +1,4 @@
+- Add validation when loading image to throw exception when there are black pixels on the boundary.
+- Implement sector map writer
+- Refactor sector id generation (must be in one place only)
+
