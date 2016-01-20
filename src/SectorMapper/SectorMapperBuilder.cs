@@ -10,6 +10,7 @@ namespace SectorMapper
     {
         public int SectorIncrement { get; private set; }
         public double SectorFillThreshold { get; private set; }
+        public NumberingPolicy NumberingPolicy { get; private set; }
 
         public SectorMapperBuilder WithSectorIncrement(int sectorIncrement)
         {
@@ -20,6 +21,12 @@ namespace SectorMapper
         public SectorMapperBuilder WithSectorFillThreshold(double sectorFillThreshold)
         {
             SectorFillThreshold = sectorFillThreshold;
+            return this;
+        }
+
+        public SectorMapperBuilder WithNumberingPolicy(NumberingPolicy numberingPolicy)
+        {
+            NumberingPolicy = numberingPolicy;
             return this;
         }
 

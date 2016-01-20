@@ -20,7 +20,7 @@ namespace SectorMapper.UnitTests
         [TestCategory("Unit")]
         public void ShouldConstructForValidArguments()
         {
-            var sectors = Enumerable.Repeat(new Sector(1, 0.1, 10, 10), 100).ToList();
+            var sectors = Enumerable.Repeat(new Sector(1, 0.1, 10, 10, 0, 0), 100).ToList();
             var map = new SectorMap(500, 500, 50, sectors);
         }
     }

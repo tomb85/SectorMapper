@@ -21,7 +21,7 @@ namespace SectorMapper.UnitTests
         [TestInitialize]
         public void Setup()
         {
-            mapper = new SectorMapperBuilder().WithSectorIncrement(50).WithSectorFillThreshold(0.53).Build();
+            mapper = new SectorMapperBuilder().WithSectorIncrement(50).WithSectorFillThreshold(0.33).WithNumberingPolicy(NumberingPolicy.ZIG_ZAG).Build();
             loader = new FixedSizeImageLoader(500, 500);
             original = loader.LoadBitmap("Data/input_img_0.bmp");
             sectorMap = mapper.Map(original);
@@ -96,10 +96,20 @@ namespace SectorMapper.UnitTests
         [TestCategory("Acceptance")]
         public void ShouldProduceDebugOutputShowingAllFilters()
         {
-            var creator = new CompositeBitmapCreatorBuilder().WithSource(original).WithFill(122).WithGrid().Build();
+            var creator = new CompositeBitmapCreatorBuilder().WithSource(original).WithFill(alpha: 122).WithGrid().WithSectorNumbers(fontSize: 12).Build();
             var debugger = new SectorMapDebugger(sectorMap, creator);
             debugger.Debug("/Results/all.bmp");
             Assert.IsTrue(File.Exists("/Results/all.bmp"));
+        }
+
+        [TestMethod]
+        [TestCategory("Acceptance")]
+        public void ShouldProduceDebugOutputShowingSectorNumbers()
+        {
+            var creator = new CompositeBitmapCreatorBuilder().WithSectorNumbers(8).Build();
+            var debugger = new SectorMapDebugger(sectorMap, creator);
+            debugger.Debug("/Results/numbers.bmp");
+            Assert.IsTrue(File.Exists("/Results/numbers.bmp"));
         }
     }
 }

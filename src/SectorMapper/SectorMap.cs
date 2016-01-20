@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace SectorMapper
 {
@@ -12,13 +13,15 @@ namespace SectorMapper
         public int Height { get; private set; }
         public int SectorIncrement { get; private set; }
         public IList<Sector> Sectors { get; private set; }
+        public NumberingPolicy NumberingPolicy { get; private set; }
 
-        public SectorMap(int width, int height, int sectorIncrement, IList<Sector> sectors)
+        public SectorMap(int width, int height, int sectorIncrement, IList<Sector> sectors, NumberingPolicy numberingPolicy = NumberingPolicy.LINEAR)
         { 
             Width = width;
             Height = height;
             SectorIncrement = sectorIncrement;
             Sectors = sectors;
+            NumberingPolicy = numberingPolicy;
 
             if (!ValidateSectorIncrement())
             {
@@ -47,7 +50,16 @@ namespace SectorMapper
         }
 
         private int GetSectorIndex(int x, int y)
-        {            
+        {
+            if (NumberingPolicy == NumberingPolicy.ZIG_ZAG)
+            {
+                // transform x for odd rows
+                int rowNumber = y / SectorIncrement;
+                if (rowNumber % 2 != 0)
+                {
+                    x = Width - x - 1;
+                }
+            }
             // Use row major
             int sectorsPerRow = Width / SectorIncrement;
             return (x / SectorIncrement) + (y / SectorIncrement) * sectorsPerRow;
@@ -69,6 +81,6 @@ namespace SectorMapper
             {
                 return false;
             }
-        }
+        }                
     }
 }

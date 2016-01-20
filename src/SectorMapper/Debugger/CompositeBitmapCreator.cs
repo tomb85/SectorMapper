@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace SectorMapper.Debug
 {
@@ -66,6 +67,37 @@ namespace SectorMapper.Debug
                 }
             }
             return bitmap;
+        }
+    }
+
+    internal class AddSectorNumbers : AbstractCompositeBitmapCreator
+    {
+        private int fontSize;
+
+        public AddSectorNumbers(ICompositeBitmapCreator creator, int fontSize) : base(creator)
+        {
+            this.fontSize = fontSize;
+        }
+
+        protected override Bitmap CreateBitmap(SectorMap map)
+        {
+            var bitmap = new Bitmap(map.Width, map.Height);           
+            using (var graphics = Graphics.FromImage(bitmap))
+            {
+                var stringFormat = new StringFormat();
+                stringFormat.Alignment = StringAlignment.Center;
+                stringFormat.LineAlignment = StringAlignment.Center;
+
+                var font = new Font("Courier New", fontSize);
+                               
+                foreach(var sector in map.Sectors) {
+                    var rect = new Rectangle(sector.GlobalX, sector.GlobalY, map.SectorIncrement, map.SectorIncrement);
+                    graphics.DrawString(sector.Id.ToString(), font, Brushes.Black, rect, stringFormat);               
+                }
+                                
+                graphics.Flush();
+            }
+            return bitmap;          
         }
     }
 
@@ -134,6 +166,12 @@ namespace SectorMapper.Debug
         public CompositeBitmapCreatorBuilder WithSource(Bitmap source)
         {
             creator = new AddSource(creator, source);
+            return this;
+        }
+
+        public CompositeBitmapCreatorBuilder WithSectorNumbers(int fontSize)
+        {
+            creator = new AddSectorNumbers(creator, fontSize);
             return this;
         }
 
