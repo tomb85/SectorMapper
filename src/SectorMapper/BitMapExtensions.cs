@@ -21,7 +21,7 @@ namespace SectorMapper
 
                     var sourcePixel = source.GetPixel(x, y);
                     var backgroundPixel = background.GetPixel(x, y);
-                    int alpha = 122;
+                    int alpha = sourcePixel.A;
 
                     int red = sourcePixel.R * alpha / 255 + backgroundPixel.R  * (255 - alpha) / 255;
                     int green = sourcePixel.G  * alpha / 255 + backgroundPixel.G  * (255 - alpha) / 255;
