@@ -105,6 +105,8 @@ namespace SectorMapper.Tool
             mapper = new SectorMapper(sectorIncrement, fillTreshhold);
             loader = new FixedSizeBitMapLoader(bmpWidth, bmpHeight);
 
+            SectorCutInfoGenerator.AddHeader(parameters[OUTPUT]);
+
             foreach (var bmpfile in Directory.GetFiles(parameters[SOURCE_DIRECTORY], "*.bmp"))
             {
                 var bmp = loader.LoadBitmap(bmpfile);
@@ -112,6 +114,8 @@ namespace SectorMapper.Tool
                 var writer = new SectorCutInfoGenerator(map, parameters[OUTPUT]);
                 writer.GenerateInfo(Path.GetFileName(bmpfile));
             }
+
+            SectorCutInfoGenerator.AddFooter(parameters[OUTPUT]);
         }
     }
 }
