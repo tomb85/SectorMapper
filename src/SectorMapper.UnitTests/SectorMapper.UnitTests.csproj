@@ -72,6 +72,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Data\01.bmp" />
+    <Content Include="Data\03.bmp" />
     <Content Include="Data\input_img_0.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

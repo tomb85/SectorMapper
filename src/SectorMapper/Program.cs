@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
 
-
 namespace SectorMapper.Tool
 {
     class Program
@@ -20,12 +19,9 @@ namespace SectorMapper.Tool
         private const string SOURCE_DIRECTORY = "in";
         private const string OUTPUT = "out";
         private Dictionary<string, string> parameters;
-
-
-
+        
         static void Main(string[] args)
-        {
-            
+        {            
             var program = new Program();
             program.Run(args);
         }
@@ -83,7 +79,7 @@ namespace SectorMapper.Tool
 
             if (!parameters.ContainsKey(OUTPUT))
             {
-                parameters[OUTPUT] = "up1.txt";
+                parameters[OUTPUT] = "up1.src";
             }
 
         }
@@ -100,7 +96,6 @@ namespace SectorMapper.Tool
             double fillTreshhold = Double.Parse(parameters[FILL_TRESHHOLD]);
             int bmpWidth = Int32.Parse(parameters[BITMAP_WIDTH]);
             int bmpHeight = Int32.Parse(parameters[BITMAP_HEIGHT]);
-                
 
             mapper = new SectorMapper(sectorIncrement, fillTreshhold);
             loader = new FixedSizeBitMapLoader(bmpWidth, bmpHeight);

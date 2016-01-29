@@ -52,7 +52,6 @@
     <Compile Include="SectorMap.cs" />
     <Compile Include="SectorMapDebugger.cs" />
     <Compile Include="SectorMapper.cs" />
-    <Compile Include="SectorMapperBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

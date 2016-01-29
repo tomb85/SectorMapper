@@ -19,19 +19,19 @@ namespace SectorMapper.UnitTests
         [TestInitialize]                            // ta metoda będzie wywoływana przed wywołaniem dowolnego testu w tej klasie (wynika to właśnie z test initialize)
         public void SetTestParameters()
         {
-            mapper = new SectorMapper(5, 0.5);
+            mapper = new SectorMapper(25, 0.5);
             loader = new FixedSizeBitMapLoader(width: 500, height: 500);
             bitMapOriginal = loader.LoadBitmap(path: "Data/input_img_0.bmp");
             sectorMap = mapper.Map(bitMapOriginal);
-            sectorCutInfoGenerator = new SectorCutInfoGenerator(sectorMap, resultsPath + Path.DirectorySeparatorChar + "dupa1.txt");
+            sectorCutInfoGenerator = new SectorCutInfoGenerator(sectorMap, resultsPath + Path.DirectorySeparatorChar + "TestOutput.txt");
             sectorCutInfoGenerator.GenerateInfo("01.bmp");
             if (!Directory.Exists(resultsPath))    // @ oznacza, że nie trzeba używać :\\ bo \ oznacza ścieżkę
             {
                 Directory.CreateDirectory(resultsPath);
             }
-            if (File.Exists(resultsPath + Path.DirectorySeparatorChar + "dupa1.txt"))
+            if (File.Exists(resultsPath + Path.DirectorySeparatorChar + "TestOutput.txt"))
             {
-                File.Delete(resultsPath + Path.DirectorySeparatorChar + "dupa1.txt");
+                File.Delete(resultsPath + Path.DirectorySeparatorChar + "TestOutput.txt");
             }
 
         }
@@ -40,7 +40,7 @@ namespace SectorMapper.UnitTests
         [TestCategory("Acceptance")]
         public void ShouldProduceDebugOutputWithSourceImage()
         {                                                                                            // CompositeBitmapCreatorBuilder to nasze "menu" z którego wybieramy jakie operacje chcemy mieć przeprowadzone na załadowanej bitmapie. Istotna będzie kolejność, w jakiej to robimy.
-            var creator = new CompositeBitmapCreatorBuilder().WithSource(bitMapOriginal).Build();    //tu tworzymy obiekt "creator" który będzie użyty w SectorMapDebugger do tworzenia innych obiektów            
+            var creator = new CompositeBitmapCreatorBuilder().WithSource(bitMapOriginal).Build();    // tu tworzymy obiekt "creator" który będzie użyty w SectorMapDebugger do tworzenia innych obiektów            
             var sectorMapDebugger = new SectorMapDebugger(sectorMap, creator);                       // celem tej klasy jest dostep graficzny do efektu pracy
             sectorMapDebugger.Debug(resultsPath+Path.DirectorySeparatorChar+"source.bmp");
             Assert.IsTrue(File.Exists(resultsPath + Path.DirectorySeparatorChar + "source.bmp"));
@@ -102,7 +102,7 @@ namespace SectorMapper.UnitTests
         [TestCategory("Acceptance")]
         public void ShouldProduceSectorsToBeCut()
         {
-            var creator = new CompositeBitmapCreatorBuilder().WithSectorGrid().WithSectorsToBeCut(122).WithSectorNumbering(10).Build();
+            var creator = new CompositeBitmapCreatorBuilder().WithSectorGrid().WithSectorsToBeCut(122).Build();
             var sectorMapDebugger = new SectorMapDebugger(sectorMap, creator);
             sectorMapDebugger.Debug(resultsPath + Path.DirectorySeparatorChar + "ShouldProduceSectorsToBeCut.bmp");
             Assert.IsTrue(File.Exists(resultsPath + Path.DirectorySeparatorChar + "ShouldProduceSectorsToBeCut.bmp"));

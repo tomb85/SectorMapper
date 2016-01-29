@@ -60,26 +60,26 @@ namespace SectorMapper.UnitTests
 
         [TestMethod]
         [TestCategory("Unit")]
-        public void IsBlackDlaCzarnego()
+        public void ShouldMarkSectorAsBlackIfTresholdIsReached()
         {
             var sut = new Sector(fillTreshhold: 0.5, id: 1, height: 5, width: 10, globalX: 0, globalY: 0);
             for (int i = 0; i < 27; i++)
             {
                 sut.IncreaseFillCount();
             }
-            Assert.IsTrue(sut.IsBlack(), "spodziewalem sie czarnucha, a jest bialas");
+            Assert.IsTrue(sut.IsBlack(), "Sector expected to be black, it is white");
         }
 
         [TestMethod]
         [TestCategory("Unit")]
-        public void IsBlackDlaBialego()
+        public void ShouldMarkSectorAsWhiteIfThresholdIsNotReached()
         {
             var sut = new Sector(fillTreshhold: 0.5, id: 1, height: 5, width: 10, globalX: 0, globalY: 0);
             for (int i = 0; i < 17; i++)
             {
                 sut.IncreaseFillCount();
             }
-            Assert.IsFalse(sut.IsBlack(), "spodziewalem sie bialasa, a jest NEGROID, FillRatio: "+sut.FillRatio );
+            Assert.IsFalse(sut.IsBlack(), "Sector expected to be white, it is black FillRatio: "+sut.FillRatio );
         }
     }
 }

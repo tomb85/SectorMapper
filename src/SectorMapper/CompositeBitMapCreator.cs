@@ -12,14 +12,15 @@ namespace SectorMapper
         Bitmap CreateCompositeBitMap(SectorMap map);
     }
 
-    public abstract class AbstractCompositeBitmapCreator : ICompositeBitMapCreator              //używamy abstract class ponieważ operujemy na algorytmie, 
+    public abstract class AbstractCompositeBitmapCreator : ICompositeBitMapCreator              //abstract = klasa bez instancji
     {
         private ICompositeBitMapCreator creator;
 
-        public AbstractCompositeBitmapCreator(ICompositeBitMapCreator creator)          //---*--- konstruktor
+        public AbstractCompositeBitmapCreator(ICompositeBitMapCreator creator)                  //coort
         {
             this.creator = creator;
         }
+        
         
         public Bitmap CreateCompositeBitMap(SectorMap map)
         {
@@ -27,14 +28,13 @@ namespace SectorMapper
             if (creator != null)
             {
                 var original = creator.CreateCompositeBitMap(map);
-                return original.Combine(bitmap);                                // metoda Combine ma  połączyć 2+ bitmapy w jeden obraz
+                return original.Combine(bitmap);                                                // metoda Combine ma  połączyć 2+ bitmapy w jeden obraz
             }
             else
             {
                 return bitmap;
             }         
         }
-
         protected abstract Bitmap CreateBitmap(SectorMap map);
     }
 
@@ -50,7 +50,7 @@ namespace SectorMapper
         {
             var bitmap = new Bitmap(map.Width, map.Height);             // tworzymy bitmape, ktora bedziemy modyfikowac
             using (var graphics = Graphics.FromImage(bitmap))           // tworzymy Graphics.Object z biblioteki .NET; ten typ obiektu pozwala na bardziej zaawansowane operacje na bitmapie - pisanie, kolorowanie itp. szczegóły są w dokumentacji metody
-           // using to skrót do compiler'a, aby kompiler wiedział, że operuje na system resources - czyli za użytkownika alokuje i zwalnia zasoby systemowe, uzytkownik sie tym nie musi martwic
+                                                                        // using to skrót do compiler'a, aby kompiler wiedział, że operuje na system resources - czyli za użytkownika alokuje i zwalnia zasoby systemowe, uzytkownik sie tym nie musi martwic
             {
                 var stringFormat = new StringFormat();                  // to definiuje jakie maja być właściwości wyświetlanego tekstu
                 stringFormat.Alignment = StringAlignment.Center;        
@@ -58,14 +58,15 @@ namespace SectorMapper
 
                 var font = new Font("Courier New", fontSize);
 
-                foreach (var sector in map.SectorList)                     // foreach = iteruje wszystkie sektory
+                foreach (var sector in map.SectorList)
                 {
                     var rect = new Rectangle(sector.GlobalX, sector.GlobalY, map.SectorIncrement, map.SectorIncrement);     // dla danego sektora tworzymy prostokąt (rectangle) ktory mowi, jaka jest X i Y wzgledem calej bitmapy oraz jaka jest dlugosc i szerokosc tego prostokąta
-                    graphics.DrawString(sector.Id.ToString(), font, Brushes.Black, rect, stringFormat);     //metoda graphics.DrawString to po prostu maluje; rect = gdzie; stringFormat = jaki format
+                    graphics.DrawString(sector.Id.ToString(), font, Brushes.Black, rect, stringFormat);                     // metoda graphics.DrawString to po prostu maluje; rect = gdzie; stringFormat = jaki format
                 }
 
-                graphics.Flush();                                       // wszystkie operacje powyzej sa trzymane w buforze. Dopoki nie wywolasz flush, to ten obiekt nie bedzie zupdate'owany
+                graphics.Flush();                                       // wszystkie operacje powyzej są trzymane w buforze, dopóki nie wywołąmy flush
             }
+
             return bitmap;
         }
     }

@@ -6,37 +6,34 @@ using System.IO;
 
 namespace SectorMapper
 {
-    public class SectorCutInfoGenerator
+    //wewnętrzna klasa, która służy do śledzenia współrzędnych punktów, które zapisujemy do pliku
+    class Point
     {
-        private int tracerx;
-        private int tracery;           //TO-DO zmienne do sledzenia ostatniego X oraz Y, do wyzerowania w [UUU]
-        private SectorMap sectorMap;
-        private string path;
-        private Stack<Sector> sectorStack = new Stack<Sector>();
-        private List<String> outputBuffer = new List<String>();         //najpierw zbierzemy wszystkie nasze punkty do buffera, a potem je wyplujemy do pliku
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
+        public Point(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+    }
+
+    public class SectorCutInfoGenerator
+    {   private SectorMap sectorMap;
+        private string path;
+        public Stack<Sector> sectorStack = new Stack<Sector>();
+        private List<String> outputBuffer = new List<String>();
+        private List<Point> pointListXY = new List<Point>();        // nasze punkty najpierw dodamy do pointListXY a następnie odfiltrujemy zbędne wpisy
+                                                                    
         public SectorCutInfoGenerator(SectorMap sectorMap, string path)
         {
             this.sectorMap = sectorMap;
             this.path = path;
-            
         }
 
-        public void GenerateInfo(string bitmapName)
+        private void WritingList()
         {
-            // [UUU]
-            tracerx = 0;
-            tracery = 0;
-            var startingSector = sectorMap.GetFirstSector();
-            startingSector.MarkAsVisited();
-            sectorStack.Push(startingSector);
-
-            while (sectorStack.Count > 0)
-            {
-                var currentSector = sectorStack.Peek();
-                Enter(currentSector, bitmapName);
-                Resolve(currentSector);
-            }
             using (var writer = new StreamWriter(path, true))
             {
                 foreach (var line in outputBuffer)
@@ -46,16 +43,34 @@ namespace SectorMapper
             }
         }
 
+        public void GenerateInfo(string bitmapName)
+        {
+            var startingSector = sectorMap.GetFirstSector();
+            startingSector.MarkAsVisited();
+            sectorStack.Push(startingSector);
+
+            while (sectorStack.Count > 0)
+            {
+                var currentSector = sectorStack.Peek();
+                Enter(currentSector, bitmapName);
+                Resolve(currentSector);    
+            }
+
+            ListProcessing(bitmapName);
+            WritingList();
+        }
+
         private void Resolve(Sector currentSector)
         {
             var nextSector = GetNextSector(currentSector);
+
             if (nextSector == null)
             {
                 currentSector.MarkAsExplored();
                 sectorStack.Pop();
             }
             else
-            {
+            { 
                 nextSector.MarkAsVisited();
                 sectorStack.Push(nextSector);
             }
@@ -111,25 +126,67 @@ namespace SectorMapper
             }
 
             return neighbours;
-            
+        }
+
+        public void Log(int x, int y, string bitmapName)
+        {
+
+            var message = "LIN{X " + x * 0.4 + ",Y " + y * 0.4 + ",Z " + Convert.ToInt32(bitmapName.Split('.')[0]) * 5 + ",A 180,B 0,C 180}"; 
+            string lastInputToBuffer = null;
+
+            if (outputBuffer.Count > 0)
+            {
+                lastInputToBuffer = outputBuffer[outputBuffer.Count - 1];
+            }
+
+            if ((lastInputToBuffer != null && message != lastInputToBuffer) || lastInputToBuffer == null)
+            {
+                outputBuffer.Add(message);
+            }
 
         }
+
+        private void ListProcessing(string bitmapName)
+        {
+            var firstPoint = pointListXY[0];
+            Log(firstPoint.X,firstPoint.Y,bitmapName);
+            for (int i = 1; i < pointListXY.Count-1; i++)
+            {
+                var previousPoint = pointListXY[i - 1];
+                var currentPoint = pointListXY[i];
+                var nextPoint = pointListXY[i + 1];
+
+                if (currentPoint.X != previousPoint.X && 
+                    currentPoint.X == nextPoint.X &&
+                    currentPoint.Y == previousPoint.Y &&
+                    currentPoint.Y != nextPoint.Y)
+                    
+                {
+                    Log(previousPoint.X, previousPoint.Y, bitmapName);
+                    Log(currentPoint.X, currentPoint.Y, bitmapName);
+                }
+
+                if ((currentPoint.X == previousPoint.X &&
+                    currentPoint.X == nextPoint.X &&
+                    previousPoint.Y == nextPoint.Y)
+                    ||
+                    (previousPoint.X != nextPoint.X &&
+                    previousPoint.Y != nextPoint.Y))
+                {
+                    Log(currentPoint.X, currentPoint.Y, bitmapName);
+                }
+            }
+            Log(firstPoint.X, firstPoint.Y, bitmapName);
+        }
+
+
 
         private void Enter(Sector currentSector, string bitmapName)
         {
-            
-            int outputYvalue = currentSector.GlobalY / sectorMap.SectorIncrement;
-            int outputXvalue = currentSector.GlobalX / sectorMap.SectorIncrement;
-            
-            var message = "LIN{X " + currentSector.GlobalX*0.4 + ",Y " + currentSector.GlobalY*0.4 + ",Z " + Convert.ToInt32(bitmapName.Split('.')[0])*5 + ",A 180,B 0,C 180}";                          // new line: \n   ;   tab: \t
-            
-            
-            
-            outputBuffer.Add(message); //TO-DO warunek na generacje linijki kodu - nie zawsze chcemy output
-
+            pointListXY.Add(new Point(currentSector.GlobalX, currentSector.GlobalY));
         }
 
-        public static void AddHeader(string path)                  // static = inicjalizacja bez obiektu
+        public static void AddHeader(string path)                  
         {
             using (var writer = new StreamWriter(path, true))
             {
@@ -144,9 +201,6 @@ namespace SectorMapper
             {
                 writer.WriteLine("\r\n;FOLD PTP HOME  Vel= 100 % DEFAULT;%{PE}%MKUKATPBASIS,%CMOVE,%VPTP,%P 1:PTP, 2:HOME, 3:, 5:100, 7:DEFAULT\r\n$BWDSTART = FALSE\r\nPDAT_ACT=PDEFAULT\r\nFDAT_ACT=FHOME\r\nBAS (#PTP_PARAMS,100 )\r\n$H_POS=XHOME\r\nPTP  XHOME\r\n;ENDFOLD\r\n\r\nEND\r\n");
             }
-
         }
-
-
     }
 }

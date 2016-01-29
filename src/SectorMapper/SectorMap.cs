@@ -11,7 +11,7 @@ namespace SectorMapper
         public int Width { get; private set; }
         public int Height { get; private set; }
         public int SectorIncrement { get; private set; }
-        public List<Sector> SectorList { get; private set; }         // tworzymy obiekt typu List, który będzie zbiorem wartości <Sector> o nazwie SectorList
+        public List<Sector> SectorList { get; private set; } 
 
         public SectorMap(int width, int height, int sectorIncrement, List<Sector> sectorList)
         {

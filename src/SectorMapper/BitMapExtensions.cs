@@ -7,17 +7,16 @@ using System.Drawing;
 
 namespace SectorMapper
 {
-    static class BitMapExtensions           // klasa static pozwala na inicjalizację klasy bez potrzeby tworzenia obiektu
+    static class BitMapExtensions                                                       // static = inicjalizacja bez obiektu
     {
-        public static Bitmap Combine(this Bitmap background, Bitmap source)            // mamy "this" ponieważ this reporezentuje obiekt, który tą metodę wywołuje
+        public static Bitmap Combine(this Bitmap background, Bitmap source)             // tutaj "this" to obiekt jednocześnie reprezentujący klasę
         {
             var combined = new Bitmap(background.Width, background.Height);
             for (int x = 0; x < background.Width; x++)
             {
                 for (int y = 0; y < background.Height; y++)
                 {
-                    // Use Alpha Blending
-                    // displayColor = sourceColor × alpha / 255 + backgroundColor × (255 – alpha) / 255
+                    // używamy tzw. Alpha Blending
 
                     var sourcePixel = source.GetPixel(x, y);
                     var backgroundPixel = background.GetPixel(x, y);
